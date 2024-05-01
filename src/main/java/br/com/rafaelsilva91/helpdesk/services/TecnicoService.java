@@ -8,6 +8,7 @@ import br.com.rafaelsilva91.helpdesk.repositories.TecnicoRepository;
 import br.com.rafaelsilva91.helpdesk.services.exceptions.DataIntegrityViolationException;
 import br.com.rafaelsilva91.helpdesk.services.exceptions.ObjectNotFountExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class TecnicoService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     public Tecnico findById(Integer id) {
         Optional<Tecnico> tecnico = this.repository.findById(id);
         return tecnico.orElseThrow(() -> new ObjectNotFountExceptions("objeto não Encontrado! ID:" + id));
@@ -33,6 +37,7 @@ public class TecnicoService {
 
     public Tecnico create(TecnicoDTO objDTO) {
         objDTO.setId(null);
+        objDTO.setSenha(encoder.encode(objDTO.getSenha()));
         validaPorCpfEEmail(objDTO);
         Tecnico newObj = new Tecnico(objDTO);
         return this.repository.save(newObj);

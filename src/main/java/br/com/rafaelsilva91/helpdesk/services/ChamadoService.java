@@ -66,14 +66,4 @@ public class ChamadoService implements Serializable {
         return repository.save(oldChamado);
     }
 
-
-//
-//    public void delete(Integer id) {
-//        Chamado obj = findById(id);
-//        if(obj.getId().is .size() > 0 ){
-//            throw new DataIntegrityViolationException("Técnico possui ordens de serviço e não pode ser deletado!");
-//        }
-//        repository.deleteById(id);
-//    }
-
 }
